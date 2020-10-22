@@ -1,4 +1,4 @@
-const header = () => `
+const ExcelHeader = () => `
     <div class="excel__header">
         <input type="text" class="input" value="Новая таблица">
         
@@ -8,4 +8,4 @@ const header = () => `
         </div>
     </div>
 `
-export default header()
+export default ExcelHeader()

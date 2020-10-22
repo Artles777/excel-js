@@ -1,4 +1,4 @@
-const table = () => `
+const ExcelTable = () => `
     <div class="excel__table">
         <div class="row">
             <div class="row-info"></div>
@@ -28,4 +28,4 @@ const table = () => `
         </div>
     </div>
 `
-export default table()
+export default ExcelTable()

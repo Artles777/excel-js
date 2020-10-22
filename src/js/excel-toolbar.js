@@ -1,4 +1,4 @@
-const toolbar = () => `
+const ExcelToolbar = () => `
     <div class="excel__toolbar">
         <button class="material-icons button">format_bold</button>
         <button class="material-icons button">format_italic</button>
@@ -8,4 +8,4 @@ const toolbar = () => `
         <button class="material-icons button">format_align_right</button>
     </div>
 `
-export default toolbar()
+export default ExcelToolbar()
