@@ -13,6 +13,7 @@ fonts.add({
 })
 
 const excel = new Excel('#app', {
+    // List classes exports from src/components
     components: [Header, Toolbar, Formula, Table]
 })
 excel.render()

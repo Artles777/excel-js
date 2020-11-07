@@ -16,7 +16,8 @@
     "max-len": "off",
     "linebreak-style": "off",
     "new-cap": "off",
-    "quotes": "off"
+    "quotes": "off",
+    "operator-linebreak": "off"
   },
   "extends": [
     "eslint:recommended",
