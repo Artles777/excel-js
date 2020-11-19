@@ -11,12 +11,19 @@
     padding-bottom: 2px
 
     .row
+      position: relative
       display: flex
       flex-flow: row
       min-height: 20px
       height: $row-height
+      &[data-id="1"]
+        margin-top: $row-height
+      &:first-child
+        position: fixed
+        z-index: 3
 
       &-info
+        position: relative
         display: flex
         align-items: center
         justify-content: center
@@ -25,11 +32,23 @@
         border: 1px solid $border-color
         background: #f8f9fa
         border-top: none
+        line-height: initial
+
+      &__resize
+        left: 0
+        height: 4px
+        &:after
+          width: 100vw
+          height: 1px
+          margin-top: 2px
+        &:hover
+          cursor: ns-resize
 
       &-data
         display: flex
 
       .column
+        position: relative
         display: flex
         align-items: center
         justify-content: center
@@ -39,6 +58,16 @@
         border: 1px solid $border-color
         border-top: none
         border-left: none
+
+        &__resize
+          top: 0
+          width: 4px
+          &:after
+            width: 1px
+            height: 100vh
+            margin-left: 2px
+          &:hover
+            cursor: ew-resize
 
       .cell
         min-width: 40px
@@ -51,8 +80,27 @@
         color: #111111
         white-space: nowrap
         outline: none
+        word-break: break-word
 
         &.selected
           border: none
-          outline: 2px solid #3c74ff
+          outline: 2px solid $primary-color
           z-index: 2
+
+      .column__resize,
+      .row__resize
+        position: absolute
+        right: 0
+        bottom: 0
+        z-index: 1
+        &:after
+          display: block
+        &:hover
+          background: $primary-color
+        &:active
+          background: $primary-color
+          &:after
+            background: $primary-color
+
+      .resize:after
+        content: ''
