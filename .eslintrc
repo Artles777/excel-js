@@ -17,7 +17,8 @@
     "linebreak-style": "off",
     "new-cap": "off",
     "quotes": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "switch-colon-spacing": "off"
   },
   "extends": [
     "eslint:recommended",

@@ -1,13 +1,19 @@
 import {ExcelComponent} from "@core/ExcelComponent"
 import {createTable} from '@/components/table/table.tamplate'
+import {blurCell, focusCell} from "@/components/table/table.logic-cells"
+import {keys} from "@/components/table/table.logic-keys"
+import {resizeable} from "@/components/table/table.logic-resize"
+import {scrollWindow} from "@/components/table/table.logic-scroll"
+import {checkDataset} from "@/components/table/table.function";
+import {$} from "@core/dom";
 
 export class Table extends ExcelComponent {
     static className = 'excel__table'
 
-    constructor($root, options) {
+    constructor($root, options, isDrawing = false) {
         super($root, {
             name: 'Table',
-            // listeners: ['focusin', 'focusout', 'scroll']
+            listeners: ['focusin', 'focusout', 'scroll', 'keydown', 'mousedown']
         });
     }
 
@@ -15,24 +21,29 @@ export class Table extends ExcelComponent {
         return createTable()
     }
 
-    // onFocusin(event) {
-    //     event.target.classList.add('selected')
-    // }
-    //
-    // onFocusout(event) {
-    //     event.target.classList.remove('selected')
-    // }
-    //
-    // onWindowScroll() {
-    //     const documentHeight = Math.max(
-    //         document.body.scrollHeight, document.documentElement.scrollHeight,
-    //         document.body.offsetHeight, document.documentElement.offsetHeight,
-    //         document.body.clientHeight, document.documentElement.clientHeight
-    //     )
-    //     const currentPositionScroll = window.pageYOffset
-    //     const windowHeight = document.documentElement.clientHeight
-    //     if (documentHeight < currentPositionScroll + windowHeight + 50) {
-    //         console.log('scroll')
-    //     }
-    // }
+    onFocusin(event) {
+        if (checkDataset(event, 'focus')) {
+            return focusCell(event, this.$root)
+        }
+    }
+
+    onFocusout(event) {
+        if (checkDataset(event, 'focus')) {
+            return blurCell(event)
+        }
+    }
+
+    onKeydown(event) {
+         return keys(event)
+    }
+
+    onMousedown(event) {
+        if (checkDataset(event, 'resize')) {
+            return resizeable(event, this.$root)
+        }
+    }
+
+    onWindowScroll() {
+        return scrollWindow()
+    }
 }

@@ -30,8 +30,18 @@ class Dom {
         return this
     }
 
+    addClass(tokens) {
+        this.$el.classList.add(tokens)
+        return this
+    }
+
     removeClass(tokens) {
         this.$el.classList.remove(tokens)
+        return this
+    }
+
+    toggleClass(tokens) {
+        this.$el.classList.toggle(tokens)
         return this
     }
 
@@ -46,9 +56,39 @@ class Dom {
     window(eventType, callback) {
         window.addEventListener(eventType, callback)
     }
+
+    closest(selector) {
+        return $(this.$el.closest(selector))
+    }
+
+    getCoords() {
+        return this.$el.getBoundingClientRect()
+    }
+
+    clone(deep) {
+        return this.$el.cloneNode(deep)
+    }
+
+    find(selector) {
+        return this.$el.querySelector(selector)
+    }
+
+    findAll(selector) {
+        return this.$el.querySelectorAll(selector)
+    }
+
+    css(styles = {}) {
+        Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+    }
+
+    get data() {
+        return this.$el.dataset
+    }
+    get count() {
+        return this.$el.childElementCount
+    }
 }
 
-// event.target
 export function $(selector) {
     return new Dom(selector)
 }
