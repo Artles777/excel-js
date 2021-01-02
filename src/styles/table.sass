@@ -7,8 +7,11 @@
     left: 0
     right: 0
     top: $header-height + $toolbar-height + $formula-height
-    overflow-x: auto
     padding-bottom: 2px
+    overflow: scroll
+    height: 85vh
+    width: 100vw
+
 
     .row
       position: relative
@@ -21,6 +24,8 @@
       &:first-child
         position: fixed
         z-index: 3
+        width: 99.3vw
+        overflow: hidden
 
       &-info
         position: relative
@@ -104,3 +109,16 @@
 
       .resize:after
         content: ''
+
+::-webkit-scrollbar
+  width: 10px
+  height: 10px
+
+::-webkit-scrollbar-track
+  background-color: #ecedee
+
+::-webkit-scrollbar-thumb
+  border-radius: 10px
+  background: #3c74ff
+  &:hover
+    background: #1a73e8

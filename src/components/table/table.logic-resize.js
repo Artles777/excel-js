@@ -29,7 +29,7 @@ export function resizeable(event, $root) {
     document.onmouseup = () => {
         $target.removeClass('resize')
         if (event.target.dataset.resize === 'column') {
-            $root.findAll(`[data-id="${$parent.data.id}"]`)
+            $root.findAll(`[data-col="${$parent.data.col}"]`)
                 .forEach($el => $el.style.width = value + 'px')
         } else {
             $parent.css({height: value + 'px'})

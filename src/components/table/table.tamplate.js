@@ -5,15 +5,26 @@ const CODES = {
 
 function toColumn(cols = 0, index) {
     return `
-    <div class="column" data-id="${index}" data-class="column">
+    <div class="column" data-col="${index + 1}" data-class="column">
         ${cols}
         <div class="column__resize" data-resize="column"></div>
     </div>
 `
 }
 
-function toCell(_, index) {
-    return `<div class="cell" data-class="cell" data-focus="selected" data-id="${index}" contenteditable></div>`
+function toCell(row) {
+    return function(_, col) {
+        return `<div
+            class="cell"
+            data-class="cell"
+            data-focus="selected"
+            data-col="${col + 1}"
+            data-row="${row + 1}"
+            data-id="${row + 1}:${col + 1}"
+            data-cell="${toChar(_, col)}${row + 1}"
+            contenteditable
+        ></div>`
+    }
 }
 
 function createRow(cell = '', index = '') {
@@ -31,7 +42,7 @@ function createRow(cell = '', index = '') {
 const toChar = (_, index) => String.fromCharCode(CODES.A + index)
 const countedRows = Math.trunc(window.innerHeight / 20)
 
-export function createTable(rowCount = countedRows, index = 0, rows = []) {
+export function createTable(rowCount = countedRows, row = 0, rows = []) {
     const cellCount = new Array(CODES.Z - CODES.A + 1)
     const cols = cellCount
         .fill('')
@@ -39,15 +50,14 @@ export function createTable(rowCount = countedRows, index = 0, rows = []) {
         .map(toColumn)
         .join('')
 
-    const cell = cellCount
-        .fill('')
-        .map((_, i) => i + 1)
-        .map(toCell)
-        .join('')
-
-    index ? rows.push() : rows.push(createRow(cols))
-    while (index < rowCount) {
-        rows.push(createRow(cell, ++index))
+    rows.push(createRow(cols))
+    while (row < rowCount) {
+        const cell = cellCount
+            .fill('')
+            // .map((_, i) => toCell(_, i, row + 1))
+            .map(toCell(row))
+            .join('')
+        rows.push(createRow(cell, ++row))
     }
     return rows.join('')
 }

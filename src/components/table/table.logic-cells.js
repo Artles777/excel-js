@@ -1,32 +1,28 @@
-import {$} from "@core/dom";
+import {$} from "@core/dom"
+import {matrix} from "@/components/table/table.function";
 
-export function focusCell(event, $root) {
+export function focusCell(event, ctx) {
     const $target = $(event.target)
-    // toggle cell table | delete all classes selected and add one class selected
-    const $el = $root.findAll('[data-focus="selected"]')
+    if (event.shiftKey) {
+        const $cells = matrix($target, ctx.selection.current)
+            .map(id => ctx.$root.find(`[data-id="${id}"]`))
+        ctx.selection.selectGroup(event.shiftKey, $cells)
+    } else if (event.ctrlKey) {
+        ctx.selection.selectGroup(event.ctrlKey, $target)
+    } else {
+        ctx.selection.select($target)
+        ctx.selection.scrollTable($target)
 
-    $el.forEach(node => {
-        node.classList.remove('selected')
-        node.style.zIndex = null
-    })
-    $target.closest('[data-focus="selected"]').addClass('selected')
-    $target.css({
-        overflow: 'visible',
-        zIndex: 3
-    })
+        document.onmousemove = e => {
+            const $target = $(e.target)
+            const $cells = matrix($target, ctx.selection.current)
+                .map(id => ctx.$root.find(`[data-id="${id}"]`))
+            ctx.selection.selectGroup(e, $cells)
+        }
 
-    window.onscroll = () => {
-        if (window.pageYOffset > 0) {
-            $target.css({zIndex: 0})
-        } else {
-            $target.css({zIndex: 3})
+        document.onmouseup = () => {
+            document.onmousemove = null
+            document.onmouseup = null
         }
     }
-}
-
-export function blurCell(event) {
-    const $target = $(event.target)
-    $target.css({
-        overflow: 'hidden'
-    })
 }

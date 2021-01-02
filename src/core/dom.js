@@ -14,6 +14,14 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text
+            return this
+        }
+        return this.$el.innerText.trim()
+    }
+
     clear() {
         this.html('')
         return this
@@ -47,10 +55,12 @@ class Dom {
 
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
+        return this
     }
 
     off(eventType, callback) {
         this.$el.removeEventListener(eventType, callback)
+        return this
     }
 
     window(eventType, callback) {
@@ -70,7 +80,7 @@ class Dom {
     }
 
     find(selector) {
-        return this.$el.querySelector(selector)
+        return $(this.$el.querySelector(selector))
     }
 
     findAll(selector) {
@@ -78,12 +88,47 @@ class Dom {
     }
 
     css(styles = {}) {
-        Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+        if (this.$el) {
+            Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+            return this
+        }
+    }
+
+    cssClear(styles = {}) {
+        Object.keys(styles).forEach(key => this.$el.style[key] = '')
+        return this
+    }
+
+    extend(...styles) {
+        styles.forEach(array => {
+            Object.keys(array).forEach(key => this.$el.style[key] = array[key])
+        })
+        return this
+    }
+
+    id(parse = false) {
+        if (parse) {
+            const parsed = this.id().split(':')
+            return {
+                row: +parsed[0],
+                col: +parsed[1]
+            }
+        }
+        return this.data.id
+    }
+
+    focus() {
+        this.$el.focus()
+        return this
     }
 
     get data() {
-        return this.$el.dataset
+        if (this.$el) {
+            return this.$el.dataset
+        }
+        return false
     }
+
     get count() {
         return this.$el.childElementCount
     }
